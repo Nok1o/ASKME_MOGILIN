@@ -9,14 +9,14 @@
 
     <header class="header">
         <div class="logo">
-            <a href="ask.html">
+            <a href="index.html">
                 AskPupkin
             </a>
         </div>
         <div class="search-form">
             <form action="#">
-                <input class="search-form-input" type="text">
-                <button class="search-form-button">Ask!</button>
+                <input class="search-form-input" type="text" placeholder="Search">
+                <button class="search-form-button"><a href="ask.html" class="ask_link">Ask!</a></button>
             </form>
         </div>
         <div class="account">
@@ -42,22 +42,22 @@
 
         <div class="settings">
             <div class="login">
-                <label>Login</label>
+                <label id="login-text">Login</label>
                 <input type="text" value="login" class="login-input">
             </div>
 
             <div class="email">
-                <label>Email</label>
+                <label id="email-text">Email</label>
                 <input type="text" value="email@mail.ru">
             </div>
 
             <div class="nickname">
-                <label>NickName</label>
+                <label id="nickname-text">NickName</label>
                 <input type="text" value="nickname">
             </div>
 
             <div class="upload-avatar">
-                <label>Upload avatar</label>
+                <label id="upload-avatar-text">Upload avatar</label>
                 <div class="settings-avatar">
                     <img src="./image.jpg" alt="Avatar" class="upload-avatar-image">
                     <input type="file" accept=".png, .jpg, .jpeg" class="upload-avatar-input">
@@ -72,13 +72,13 @@
             <section class="popular-tags">
                 <h3>Popular Tags</h3>
                 <div class="tags">
-                    <a href="#">Tag</a>
-                    <a href="#">Tag</a>
-                    <a href="#">Tag</a>
-                    <a href="#">Tag</a>
-                    <a href="#">Tag</a>
-                    <a href="#">Tag</a>
-                    <a href="#">Tag</a>
+                    <a href="tag_search.html">Tag</a>
+                    <a href="tag_search.html">Tag</a>
+                    <a href="tag_search.html">Tag</a>
+                    <a href="tag_search.html">Tag</a>
+                    <a href="tag_search.html">Tag</a>
+                    <a href="tag_search.html">Tag</a>
+                    <a href="tag_search.html">Tag</a>
                 </div>
             </section>
             <section class="best-members">
@@ -95,6 +95,10 @@
     </div>
 
 </main>
+
+    <footer>
+        <p>This is footer</p>
+    </footer>
 
 </body>
 </html>

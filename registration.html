@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Registration</title>
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
@@ -29,29 +29,43 @@
 
 <main class="container">
     <div class="title-bar">
-        <h1>Log in</h1>
+        <h1>Registration</h1>
     </div>
     <div class="content">
         <div class="login-content">
-            <div class="error-box" id="error-box-login">Sorry, wrong password!</div>
+            <div class="error-box" id="error-box-login">Sorry, this email address already registered!</div>
             <table class="settings-table">
                 <tr>
                     <td class="text-col">Login</td>
                     <td class="input-col"><input class="login-input" type="text" placeholder="Your login"></td>
                 </tr>
                 <tr>
+                    <td class="text-col">Email</td>
+                    <td class="input-col"><input type="text" placeholder="Your email"></td>
+                </tr>
+                <tr>
+                    <td class="text-col">NickName</td>
+                    <td class="input-col"><input type="text" placeholder="Your nickname"></td>
+                </tr>
+                <tr>
                     <td class="text-col">Password</td>
                     <td class="input-col"><input type="text" placeholder="Your password"></td>
                 </tr>
                 <tr>
-                    <td class="text-col"></td>
+                    <td class="text-col">Repeat password</td>
+                    <td class="input-col"><input type="text" placeholder="Confirm password"></td>
+                </tr>
+                <tr>
+                    <td class="text-col">Upload avatar</td>
                     <td class="input-col">
-                        <button class="save-avatar">Save</button>
+                        <input type="file" accept=".png, .jpg, .jpeg" class="upload-avatar-input">
                     </td>
                 </tr>
                 <tr>
                     <td class="text-col"></td>
-                    <td class="input-col"><a href="#">Create new account</a></td>
+                    <td class="input-col">
+                        <button class="register-button">Register!</button>
+                    </td>
                 </tr>
             </table>
 

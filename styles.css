@@ -36,8 +36,12 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 3px;
     background-color: green;
     padding: 5px;
-    color: white;
     cursor: pointer;
+}
+
+.ask_link:visited, .ask_link {
+    color: white;
+    text-decoration: none;
 }
 
 .search-form-button:hover {
@@ -158,9 +162,18 @@ h1, h2, h3, h4, h5, h6 {
     width: 80%;
 }
 
+.form-button, .error-box {
+    margin-left: 10%;
+}
+
 .form-button {
     width: 40px;
-    margin-left: 10%;
+}
+
+.error-box {
+    margin-top: 4px;
+    color: red;
+    width:100%;
 }
 
 button {
@@ -212,13 +225,22 @@ textarea {
     gap: 12px;
 }
 
+#login-text, #upload-avatar-text, #email-text, #nickname-text {
+    display:block;
+    width:200px;
+}
+
+.upload-avatar, .login, .email, .nickname {
+    display: flex;
+}
+
 .upload-avatar-image {
     width: 150px;
     height: 150px;
 }
 
 .upload-avatar-input {
-    width: 50%;
+    width: 100%;
 }
 
 .upload-avatar-input::file-selector-button {
@@ -253,9 +275,21 @@ textarea {
     border-collapse: separate;
     border-spacing: 0em 1em;
     padding-left: 0;
+}
 
+#error-box-login {
+    margin-left: 0;
 }
 
 .settings-table tbody {
     margin-left: 0;
+}
+
+footer {
+    position: fixed;
+    background-color: lightgray;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
 }
