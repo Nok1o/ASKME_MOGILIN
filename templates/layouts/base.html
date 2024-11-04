@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskPupkin</title>
+    <link rel="stylesheet" href={% static "styles.css" %}>
+</head>
+
+<body>
+<header class="header">
+    <div>
+        <button class="logo"><a href="{% url 'index' %}">
+            AskPupkin
+        </a></button>
+    </div>
+    <div class="search-form">
+        <form action="#">
+            <label>
+                <input class="search-form-input" type="text" placeholder="Search">
+            </label>
+            <button class="search-form-button"><a href="{% url 'ask' %}" class="ask_link">Ask question!</a></button>
+
+        </form>
+    </div>
+    <div class="account">
+        {% if authorized %}
+            <div class="div-account-image">
+                <img src="{% static "img/avatar.jpg" %}" alt="Image" class="account-image">
+            </div>
+            <div class="account-content">
+                <div class="account-name">Dr. Pepper</div>
+                <div class="account-actions">
+                    <button class="account-actions-button"><a href="{% url 'settings' %}">Settings</a></button>
+                    <button class="account-actions-button"><a href="{% url 'login' %}">Log out</a></button>
+                </div>
+            </div>
+        {% else %}
+            <div class="unauthorized-actions">
+                <button class="account-actions-button"><a href="{% url 'login' %}">log in</a></button>
+                <button class="account-actions-button"><a href="{% url 'signup' %}">register</a></button>
+            </div>
+        {% endif %}
+    </div>
+</header>
+
+<main class="container">
+<div class="left-part">
+    {% block title %}
+    {% endblock %}
+    <div class="content">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</div>
+
+    {% block sidebar %}
+    {% endblock %}
+</main>
+
+<footer>
+    <p>This is footer</p>
+</footer>
+
+</body>
+
+</html>

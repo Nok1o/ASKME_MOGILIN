@@ -1,0 +1,60 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="question">
+        <article class="question-card">
+            <div class="card-left" id="question_card_left">
+                <img src="{% static 'img/paws.jpg' %}" alt="Image" class="card-image">
+                <label for="question-image"></label><input type="number" class="card-likes" value="{{ question.likes }}" id="question-image">
+            </div>
+
+            <div class="card-right">
+                <div class="card-right-content">
+                    <h4 class="card-title">{{ question.title }}</h4>
+
+                    <div class="card-text">{{ question.text }}</div>
+                </div>
+
+                <div class="card-right-bottom">
+
+                    <div class="card-tags">
+                        Tags:
+                        {% for tag in tags %}
+                            <a class="tag" href="{% url 'tag' tag.tag %}">{{ tag.tag }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </article>
+
+        {% for answer in answers %}
+
+            {% include 'layouts/answer-card.html' %}
+
+        {% endfor %}
+
+        {% include 'layouts/paginator.html' %}
+
+        <form class="user-answer">
+            <div class="answer">
+                <label>
+                    <textarea name="answer" cols="100%" rows="10" placeholder="Enter your answer here.."></textarea>
+                </label>
+            </div>
+        </form>
+
+        <button class="answer-button">Answer</button>
+    </div>
+
+
+{% endblock %}
+
+{% block sidebar %}
+    <aside class="sidebar">
+        {% include 'layouts/sidebar-contents.html' %}
+    </aside>
+{% endblock %}

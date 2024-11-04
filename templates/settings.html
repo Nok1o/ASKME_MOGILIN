@@ -1,0 +1,45 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}
+    <div class="title-bar">
+        <h1>Settings: Dr. Pepper</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="settings">
+        <div class="login">
+            <label id="login-text">Login</label>
+            <input type="text" placeholder="login" class="login-input">
+
+        </div>
+
+        <div class="email">
+            <label id="email-text">Email</label>
+            <input type="text" placeholder="email@mail.ru">
+        </div>
+
+        <div class="nickname">
+            <label id="nickname-text">NickName</label>
+            <input type="text" placeholder="nickname">
+        </div>
+
+        <div class="upload-avatar">
+            <label id="upload-avatar-text">Upload avatar</label>
+            <div class="settings-avatar">
+                <img src="{% static 'img/serious_cat.jpg' %}" alt="Avatar" class="upload-avatar-image">
+                <input type="file" accept=".png, .jpg, .jpeg" class="upload-avatar-input">
+                <button class="save-avatar">Save</button>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <aside class="sidebar">
+        {% include 'layouts/sidebar-contents.html' %}
+    </aside>
+{% endblock %}

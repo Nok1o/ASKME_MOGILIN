@@ -1,0 +1,24 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}
+    <div class="title-bar">
+        <h1>Tag: {{ tag.tag }}</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="cards">
+        {% for question in questions %}
+            {% include 'layouts/question-card.html' %}
+        {% endfor %}
+
+        {% include 'layouts/paginator.html' %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <aside class="sidebar">
+        {% include 'layouts/sidebar-contents.html' %}
+    </aside>
+{% endblock %}

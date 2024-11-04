@@ -1,0 +1,65 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}
+    <div class="title-bar">
+        <h1>Registration</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="login-content">
+        <div class="error-box" id="error-box-login">Sorry, this email address already registered!</div>
+        <table class="settings-table">
+            <tr>
+                <td class="text-col">Login</td>
+                <td class="input-col"><label>
+                    <input class="login-input" type="text" placeholder="Your login">
+                </label></td>
+            </tr>
+            <tr>
+                <td class="text-col">Email</td>
+                <td class="input-col"><label>
+                    <input type="text" placeholder="Your email">
+                </label></td>
+            </tr>
+            <tr>
+                <td class="text-col">NickName</td>
+                <td class="input-col"><label>
+                    <input type="text" placeholder="Your nickname">
+                </label></td>
+            </tr>
+            <tr>
+                <td class="text-col">Password</td>
+                <td class="input-col"><label>
+                    <input type="text" placeholder="Your password">
+                </label></td>
+            </tr>
+            <tr>
+                <td class="text-col">Repeat password</td>
+                <td class="input-col"><label>
+                    <input type="text" placeholder="Confirm password">
+                </label></td>
+            </tr>
+            <tr>
+                <td class="text-col">Upload avatar</td>
+                <td class="input-col">
+                    <input type="file" accept=".png, .jpg, .jpeg" class="upload-avatar-input">
+                </td>
+            </tr>
+            <tr>
+                <td class="text-col"></td>
+                <td class="input-col">
+                    <button class="register-button">Register!</button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <aside class="sidebar">
+        {% include 'layouts/sidebar-contents.html' %}
+    </aside>
+{% endblock %}

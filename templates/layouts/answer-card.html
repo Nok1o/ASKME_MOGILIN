@@ -1,0 +1,25 @@
+{% load static %}
+
+<article class="answer-card">
+    <div class="card-left">
+        <img src="{% static 'img/serious_cat.jpg' %}" alt="Image" class="card-image">
+        <input type="number" class="card-likes" value="{{ answer.likes }}">
+    </div>
+
+    <div class="card-right">
+        <div class="card-right-content">
+            <div class="card-text">{{ answer.text }}</div>
+        </div>
+
+        <div class="card-right-bottom">
+            {% if answer.correct %}
+                <input type="checkbox" class="answer-checkbox" checked>
+            {% else %}
+                <input type="checkbox" class="answer-checkbox">
+            {% endif %}
+
+            <label>Correct answer</label>
+        </div>
+    </div>
+
+</article>

@@ -1,0 +1,29 @@
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1"><input type="button" value="1"></a>
+    {% endif %}
+
+    {% if page_obj.number > 3 %}
+        <input type="button" disabled value="...">
+    {% endif %}
+
+    {% if page_obj.number > 2 %}
+        <a href="?page={{ page_obj.previous_page_number }}"><input type="button"
+                                                                   value="{{ page_obj.previous_page_number }}"></a>
+    {% endif %}
+    <input type="button" disabled value="{{ page_obj.number }}">
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"><input type="button"
+                                                               value="{{ page_obj.next_page_number }}"></a>
+    {% endif %}
+
+    {% if page_obj.number|add:1 < page_obj.paginator.num_pages|add:-1 %}
+        <input type="button" disabled value="...">
+    {% endif %}
+
+    {% if page_obj.next_page_number < page_obj.paginator.num_pages %}
+
+        <a href="?page={{ page_obj.paginator.num_pages }}"><input type="button"
+                                                                  value="{{ page_obj.paginator.num_pages }}"></a>
+    {% endif %}
+</div>
