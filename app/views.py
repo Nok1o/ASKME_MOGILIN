@@ -5,35 +5,15 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 
+from app.models import Question, Answer, Tag, DEFAULT_POPULAR_TAGS_NUM
+
 # Create your views here.
 
-QUESTIONS = [
-    {
-        "title": "Title " + str(i),
-        "id": i,
-        "text": "This is text for question №" + str(i),
-        "likes": i,
-        "tags": ['Tag_1', 'Tag_2', 'Tag_3', 'Tag_4'],
-        "num_answers": i,
-    }
-    for i in range(1, 31)
-]
+QUESTIONS = Question.objects.all()
 
-ANSWERS = [
-    {
-        "text": "This is answer №" + str(i),
-        "likes": i,
-        "correct": i % 2 == 0
-    }
-    for i in range(1, 20)
-]
+ANSWERS = Answer.objects.all()
 
-TAGS = [
-    {
-        "tag": "Tag_" + str(i),
-    }
-    for i in range(1, 10)
-]
+TAGS = Tag.objects.all()
 
 AMOUNT_POPULAR_TO_SHOW = 5
 
@@ -47,7 +27,7 @@ def index(request):
     return render(
         request, 'index.html',
         context={
-            'questions': page.object_list, 'tags': TAGS[:AMOUNT_POPULAR_TO_SHOW],
+            'questions': page.object_list, 'popular_tags': Tag.objects.get_popular_tags(),
             'page_obj': page, 'authorized': True
         }
     )
@@ -81,7 +61,7 @@ def hot_questions(request):
 
     return render(
         request, 'hot_questions.html',
-        context={'questions': page.object_list, 'page_obj': page, 'tags': TAGS[-AMOUNT_POPULAR_TO_SHOW:], 'authorized': True}
+        context={'questions': page.object_list, 'page_obj': page, 'popular_tags': TAGS[max(0, len(TAGS) -AMOUNT_POPULAR_TO_SHOW - 1):], 'authorized': True}
     )
 
 
@@ -89,29 +69,27 @@ def question(request, question_id):
     if question_id > len(QUESTIONS) or question_id < 0:
         return HttpResponseNotFound("Question was not found")
 
-
-    question = QUESTIONS[question_id - 1]
+    question = Question.objects.get(question_id=question_id)
 
     page = paginate(ANSWERS, request)
 
     return render(
         request, 'question.html',
-        context={'question': question, 'tags': TAGS[:AMOUNT_POPULAR_TO_SHOW], 'answers': page.object_list,
+        context={'question': question, 'popular_tags': TAGS[:AMOUNT_POPULAR_TO_SHOW], 'answers': page.object_list,
                  'page_obj': page, 'authorized': True}
     )
 
 
 def tag(request, tag_name):
-    questions_tag = copy.deepcopy(QUESTIONS)
-    random.shuffle(questions_tag)
-    page = paginate(questions_tag, request)
+    tag = Tag.objects.get(tag_name=tag_name)
+    page = paginate(tag.question_set.all(), request)
 
     if page is None:
         return HttpResponseNotFound("Page was not found")
 
     tag = None
     for con_tag in TAGS:
-        if con_tag['tag'] == tag_name:
+        if con_tag.tag_name == tag_name:
             tag = con_tag
 
     if tag is None:
@@ -139,7 +117,7 @@ def login(request):
 
     return render(
         request, 'login.html',
-        context={'tags': TAGS[:AMOUNT_POPULAR_TO_SHOW]}
+        context={'popular_tags': TAGS[:AMOUNT_POPULAR_TO_SHOW]}
     )
 
 
@@ -147,11 +125,11 @@ def signup(request):
 
     return render(
         request, 'signup.html',
-        context={'tags': TAGS[:AMOUNT_POPULAR_TO_SHOW]}
+        context={'popular_tags': TAGS[:AMOUNT_POPULAR_TO_SHOW]}
     )
 
 def settings(request):
     return render(
         request, 'settings.html',
-        context={'tags': TAGS[:AMOUNT_POPULAR_TO_SHOW]}
+        context={'popular_tags': TAGS[:AMOUNT_POPULAR_TO_SHOW]}
     )

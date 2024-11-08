@@ -18,8 +18,8 @@
 
             <div class="card-tags">
                 Tags:
-                {% for tag in tags %}
-                <a class="tag" href="{% url 'tag' tag.tag %}">{{ tag.tag }}</a>
+                {% for tag in question.tags.all %}
+                <a class="tag" href="{% url 'tag' tag.tag_name %}">{{ tag.tag_name }}</a>
                 {% endfor %}
             </div>
         </div>
