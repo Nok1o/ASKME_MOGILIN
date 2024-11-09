@@ -47,6 +47,7 @@ class Question(models.Model):
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     num_likes = models.IntegerField(default=0)
+    num_answers = models.IntegerField(default=0)
     date_posted = models.DateTimeField(auto_now_add=True)
 
 

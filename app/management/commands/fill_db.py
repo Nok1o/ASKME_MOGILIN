@@ -5,6 +5,7 @@ from app.models import Question, Answer, LikeQuestion, LikeAnswer, Profile, AUse
 DEFAULT_RATIO = 10
 MAX_TAGS = 5
 
+
 class Command(BaseCommand):
     def get_tags(self, num_tags):
         tags = []
@@ -17,7 +18,6 @@ class Command(BaseCommand):
                 tags.append(tag)
 
         return tags
-
 
     def handle(self, *args, **options):
         ratio = DEFAULT_RATIO
@@ -35,20 +35,19 @@ class Command(BaseCommand):
         num_tags = ratio
         num_likes = ratio * 200
 
-        # for i in range(num_users):
-        #     profile = Profile.objects.create(bio="I am an ordinary user")
-        #     user = AUser.objects.create_user(profile=profile, username=f"User {i + 1}", email="email@email.email")
-        #     user.save()
-        #     profile.save()
-        #
-        # for i in range(num_tags):
-        #     tag = Tag.objects.create(tag_name = f"tag {i + 1}")
-        #     tag.save()
+        for i in range(num_users):
+            profile = Profile.objects.create(bio="I am an ordinary user")
+            user = AUser.objects.create_user(profile=profile, username=f"User {i + 1}", email="email@email.email")
+            user.save()
+            profile.save()
+
+        for i in range(num_tags):
+            tag = Tag.objects.create(tag_name = f"tag {i + 1}")
+            tag.save()
 
         for i in range(num_questions):
             tag_am = random.randint(0, MAX_TAGS + 1)
             tags = self.get_tags(tag_am)
-
 
             question = Question.objects.create(title="Question №" + str(i + 1),
                                                text="This is a text for the question №" + str(i + 1))
@@ -59,11 +58,12 @@ class Command(BaseCommand):
 
         for i in range(num_answers):
             question = random.choice(Question.objects.all())
+            question.num_answers += 1
             auth = random.choice(AUser.objects.all())
             if auth == question.author:
                 auth = (auth.id + 1) % num_users
-            answer = Answer.objects.create(question_id = question, author = auth,
-                                           text = f'text for answer id={i}', is_correct = random.choice([True, False]))
+            answer = Answer.objects.create(question_id=question, author=auth,
+                                           text=f'text for answer id={i}', is_correct=random.choice([True, False]))
             answer.save()
 
         for i in range(num_likes):
@@ -71,18 +71,19 @@ class Command(BaseCommand):
 
             if rand == 'question':
                 question = random.choice(Question.objects.all())
+                question.num_likes += 1
                 user = random.choice(AUser.objects.all())
                 if user == question.author:
                     user = (user.id + 1) % num_answers
 
-                like = LikeQuestion.objects.create(question_id = question, user_id = user)
+                like = LikeQuestion.objects.create(question_id=question, user_id=user)
                 like.save()
             else:
                 answer = random.choice(Answer.objects.all())
+                answer.num_likes += 1
                 user = random.choice(AUser.objects.all())
                 if user == answer.author:
                     user = (user.id + 1) % num_answers
 
-                like = LikeAnswer.objects.create(answer_id = answer, user_id = user)
+                like = LikeAnswer.objects.create(answer_id=answer, user_id=user)
                 like.save()
-

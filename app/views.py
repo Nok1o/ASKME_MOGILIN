@@ -18,21 +18,6 @@ TAGS = Tag.objects.all()
 AMOUNT_POPULAR_TO_SHOW = 5
 
 
-def index(request):
-    page = paginate(QUESTIONS, request)
-
-    if page is None:
-        return HttpResponseNotFound("Page was not found")
-
-    return render(
-        request, 'index.html',
-        context={
-            'questions': page.object_list, 'popular_tags': Tag.objects.get_popular_tags(),
-            'page_obj': page, 'authorized': True
-        }
-    )
-
-
 def paginate(objects_list, request, per_page=5):
     page_num = request.GET.get('page')
 
@@ -50,9 +35,23 @@ def paginate(objects_list, request, per_page=5):
     return page
 
 
+def index(request):
+    page = paginate(QUESTIONS, request)
+
+    if page is None:
+        return HttpResponseNotFound("Page was not found")
+
+    return render(
+        request, 'index.html',
+        context={
+            'questions': page.object_list, 'popular_tags': Tag.objects.get_popular_tags(),
+            'page_obj': page, 'authorized': True
+        }
+    )
+
+
 def hot_questions(request):
-    hot_qs = copy.deepcopy(QUESTIONS)
-    hot_qs.reverse()
+    hot_qs = Question.objects.order_by('-num_likes')
 
     page = paginate(hot_qs, request)
 
@@ -61,7 +60,9 @@ def hot_questions(request):
 
     return render(
         request, 'hot_questions.html',
-        context={'questions': page.object_list, 'page_obj': page, 'popular_tags': TAGS[max(0, len(TAGS) -AMOUNT_POPULAR_TO_SHOW - 1):], 'authorized': True}
+        context={
+            'questions': page.object_list, 'page_obj': page,
+            'popular_tags': Tag.objects.get_popular_tags(), 'authorized': True}
     )
 
 
@@ -69,13 +70,13 @@ def question(request, question_id):
     if question_id > len(QUESTIONS) or question_id < 0:
         return HttpResponseNotFound("Question was not found")
 
-    question = Question.objects.get(question_id=question_id)
+    question = Question.objects.get(id=question_id)
 
     page = paginate(ANSWERS, request)
 
     return render(
         request, 'question.html',
-        context={'question': question, 'popular_tags': TAGS[:AMOUNT_POPULAR_TO_SHOW], 'answers': page.object_list,
+        context={'question': question, 'popular_tags': Tag.objects.get_popular_tags(), 'answers': page.object_list,
                  'page_obj': page, 'authorized': True}
     )
 
@@ -98,7 +99,7 @@ def tag(request, tag_name):
     return render(
         request, 'tag_search.html',
         context={
-            'tags': TAGS[:AMOUNT_POPULAR_TO_SHOW], 'tag': tag,
+            'popular_tags': Tag.objects.get_popular_tags(), 'tag': tag,
             'questions': page.object_list, 'page_obj': page, 'authorized': True
         }
     )
@@ -108,7 +109,7 @@ def ask(request):
     return render(
         request, 'ask.html',
         context={
-            'tags': TAGS[:AMOUNT_POPULAR_TO_SHOW],
+            'popular_tags': Tag.objects.get_popular_tags(),
             'authorized': False,
         }
     )
@@ -117,7 +118,7 @@ def login(request):
 
     return render(
         request, 'login.html',
-        context={'popular_tags': TAGS[:AMOUNT_POPULAR_TO_SHOW]}
+        context={'popular_tags': Tag.objects.get_popular_tags()}
     )
 
 
@@ -125,11 +126,11 @@ def signup(request):
 
     return render(
         request, 'signup.html',
-        context={'popular_tags': TAGS[:AMOUNT_POPULAR_TO_SHOW]}
+        context={'popular_tags': Tag.objects.get_popular_tags()}
     )
 
 def settings(request):
     return render(
         request, 'settings.html',
-        context={'popular_tags': TAGS[:AMOUNT_POPULAR_TO_SHOW]}
+        context={'popular_tags': Tag.objects.get_popular_tags()}
     )
