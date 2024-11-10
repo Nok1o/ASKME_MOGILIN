@@ -1,5 +1,6 @@
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.core.paginator import Paginator
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import render
 
 from app.models import Question, Answer, Tag
@@ -57,7 +58,12 @@ def question(request, question_id):
     if question_id > Question.objects.count() or question_id < 0:
         return HttpResponseNotFound("Question was not found")
 
-    question = Question.objects.get(id=question_id)
+    try:
+        question = Question.objects.get(id=question_id)
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound("The question you are trying to reach does not exist")
+    except MultipleObjectsReturned:
+        return HttpResponseServerError("Found more than 1 instance of the question. Report question id to the admin.")
 
     page = paginate(Answer.objects.get_answers_for_question(question), request)
 
@@ -69,7 +75,13 @@ def question(request, question_id):
 
 
 def tag(request, tag_name):
-    tag = Tag.objects.get(tag_name=tag_name)
+    try:
+        tag = Tag.objects.get(tag_name=tag_name)
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound("The tag you are trying to find does not exist")
+    except MultipleObjectsReturned:
+        return HttpResponseServerError("Found more than 1 instance of the tag. Report tag id to the admin.")
+
     page = paginate(Tag.objects.get_questions(tag), request)
 
     if page is None:
