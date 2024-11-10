@@ -7,8 +7,8 @@
     <div class="question">
         <article class="question-card">
             <div class="card-left" id="question_card_left">
-                <img src="{% static 'img/paws.jpg' %}" alt="Image" class="card-image">
-                <label for="question-image"></label><input type="number" class="card-likes" value="{{ question.likes }}" id="question-image">
+                <img src="{% static question.author.profile.image %}" alt="Image" class="card-image">
+                <label for="question-image"></label><input type="number" class="card-likes" value="{{ question.num_likes }}" id="question-image">
             </div>
 
             <div class="card-right">
@@ -22,7 +22,7 @@
 
                     <div class="card-tags">
                         Tags:
-                        {% for tag in tags %}
+                        {% for tag in question.tags.all %}
                             <a class="tag" href="{% url 'tag' tag.tag_name %}">{{ tag.tag_name }}</a>
                         {% endfor %}
                     </div>

@@ -2,7 +2,7 @@
 
 <article class="answer-card">
     <div class="card-left">
-        <img src="{% static 'img/serious_cat.jpg' %}" alt="Image" class="card-image">
+        <img src="{% static answer.author.profile.image %}" alt="Image" class="card-image">
         <input type="number" class="card-likes" value="{{ answer.num_likes }}">
     </div>
 
@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-right-bottom">
-            {% if answer.correct %}
+            {% if answer.is_correct %}
                 <input type="checkbox" class="answer-checkbox" checked>
             {% else %}
                 <input type="checkbox" class="answer-checkbox">

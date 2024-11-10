@@ -1,24 +1,13 @@
-import copy
-import random
-
 from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 
-from app.models import Question, Answer, Tag, DEFAULT_POPULAR_TAGS_NUM
+from app.models import Question, Answer, Tag
 
+DEFAULT_QUESTIONS_PER_PAGE = 5
 # Create your views here.
 
-QUESTIONS = Question.objects.all()
-
-ANSWERS = Answer.objects.all()
-
-TAGS = Tag.objects.all()
-
-AMOUNT_POPULAR_TO_SHOW = 5
-
-
-def paginate(objects_list, request, per_page=5):
+def paginate(objects_list, request, per_page=DEFAULT_QUESTIONS_PER_PAGE):
     page_num = request.GET.get('page')
 
     try:
@@ -26,7 +15,7 @@ def paginate(objects_list, request, per_page=5):
     except ValueError:
         return None
 
-    if page_num > (len(objects_list) - 1) // per_page + 1 or page_num < 1:
+    if page_num > (objects_list.count() - 1) // per_page + 1 or page_num < 1:
         return None
 
     paginator = Paginator(objects_list, per_page)
@@ -36,7 +25,7 @@ def paginate(objects_list, request, per_page=5):
 
 
 def index(request):
-    page = paginate(QUESTIONS, request)
+    page = paginate(Question.objects.get_new_questions(), request)
 
     if page is None:
         return HttpResponseNotFound("Page was not found")
@@ -51,9 +40,7 @@ def index(request):
 
 
 def hot_questions(request):
-    hot_qs = Question.objects.order_by('-num_likes')
-
-    page = paginate(hot_qs, request)
+    page = paginate(Question.objects.get_best_questions(), request)
 
     if page is None:
         return HttpResponseNotFound("Page was not found")
@@ -67,12 +54,12 @@ def hot_questions(request):
 
 
 def question(request, question_id):
-    if question_id > len(QUESTIONS) or question_id < 0:
+    if question_id > Question.objects.count() or question_id < 0:
         return HttpResponseNotFound("Question was not found")
 
     question = Question.objects.get(id=question_id)
 
-    page = paginate(ANSWERS, request)
+    page = paginate(Answer.objects.get_answers_for_question(question), request)
 
     return render(
         request, 'question.html',
@@ -83,13 +70,13 @@ def question(request, question_id):
 
 def tag(request, tag_name):
     tag = Tag.objects.get(tag_name=tag_name)
-    page = paginate(tag.question_set.all(), request)
+    page = paginate(Tag.objects.get_questions(tag), request)
 
     if page is None:
         return HttpResponseNotFound("Page was not found")
 
     tag = None
-    for con_tag in TAGS:
+    for con_tag in Tag.objects.all():
         if con_tag.tag_name == tag_name:
             tag = con_tag
 

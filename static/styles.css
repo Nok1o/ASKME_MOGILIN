@@ -323,11 +323,39 @@ footer {
     text-align: center;
 }
 
-.tag {
+.popular-tags .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.popular-tags .tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid black;
     border-radius: 20px;
-    padding: 3px;
-    cursor: pointer;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    transition: transform 0.2s;
+}
+
+
+
+.popular-tags .tag:nth-child(1n) { font-size: 12px; color: #FF4500; }
+.popular-tags .tag:nth-child(2n) { font-size: 14px; color: #008080; }
+.popular-tags .tag:nth-child(3n) { font-size: 16px; color: #483D8B; }
+.popular-tags .tag:nth-child(4n) { font-size: 18px; color: #DC143C; }
+.popular-tags .tag:nth-child(5n) { font-size: 20px; color: #228B22; }
+.popular-tags .tag:nth-child(6n) { font-size: 22px; color: #4169E1; }
+
+
+.tag:hover {
+    transform: scale(1.1);
+    color: #000;
+    background-color: #f0f0f0;
 }
 
 .logo {
