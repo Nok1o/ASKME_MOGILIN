@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AskPupkin</title>
-    <link rel="stylesheet" href={% static "styles.css" %}>
+    <link rel="stylesheet" href={% static "css/styles.css" %}>
+    <link rel="stylesheet" href={% static "css/bootstrap.min.css" %}>
 </head>
 
 <body>
@@ -26,36 +27,40 @@
         </form>
     </div>
     <div class="account">
-        {% if authorized %}
+        {% if request.user.is_authenticated %}
             <div class="div-account-image">
-                <img src="{% static "img/avatar.jpg" %}" alt="Image" class="account-image">
+                {% if request.user.profile.image %}
+                    <img src="{{ request.user.profile.image.url }}" alt="Image" class="account-image">
+                {% else %}
+                    <img src="" alt="Image" class="account-image">
+                {% endif %}
             </div>
             <div class="account-content">
-                <div class="account-name">Dr. Pepper</div>
+                <div class="account-name">{{ request.user.profile.nickname }}</div>
                 <div class="account-actions">
                     <button class="account-actions-button"><a href="{% url 'settings' %}">Settings</a></button>
-                    <button class="account-actions-button"><a href="{% url 'login' %}">Log out</a></button>
+                    <button class="account-actions-button"><a href="{% url 'logout' %}">Log out</a></button>
                 </div>
             </div>
         {% else %}
             <div class="unauthorized-actions">
-                <button class="account-actions-button"><a href="{% url 'login' %}">log in</a></button>
-                <button class="account-actions-button"><a href="{% url 'signup' %}">register</a></button>
+                <button class="account-actions-button"><a href="{% url 'login' %}?continue=/profile/edit/">log in</a></button>
+                <button class="account-actions-button"><a href="{% url 'signup' %}?continue=/">register</a></button>
             </div>
         {% endif %}
     </div>
 </header>
 
 <main class="container">
-<div class="left-part">
-    {% block title %}
-    {% endblock %}
-    <div class="content">
-        {% block content %}
-
+    <div class="left-part">
+        {% block title %}
         {% endblock %}
+        <div class="content">
+            {% block content %}
+
+            {% endblock %}
+        </div>
     </div>
-</div>
 
     {% block sidebar %}
     {% endblock %}
@@ -65,6 +70,7 @@
     <p>This is footer</p>
 </footer>
 
+<script src="../../static/js/bootstrap.min.js"></script>
 </body>
 
 </html>
