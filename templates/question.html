@@ -1,11 +1,11 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-
+{% load bootstrap5 %}
 
 {% block content %}
 
     <div class="question">
-        <article class="question-card">
+        <article class="d-flex flex-row">
             <div class="card-left" id="question_card_left">
                 <img src="{% static question.author.profile.image %}" alt="Image" class="card-image">
                 <label for="question-image"></label><input type="number" class="card-likes" value="{{ question.num_likes }}" id="question-image">
@@ -32,22 +32,28 @@
         </article>
 
         {% for answer in answers %}
-
             {% include 'layouts/answer-card.html' %}
-
         {% endfor %}
 
         {% include 'layouts/paginator.html' %}
 
-        <form class="user-answer">
-            <div class="answer">
-                <label>
-                    <textarea name="answer" cols="100%" rows="10" placeholder="Enter your answer here.."></textarea>
-                </label>
-            </div>
-        </form>
+{#        <form class="user-answer">#}
+{#            <div class="answer">#}
+{#                <label>#}
+{#                    <textarea name="answer" cols="100%" rows="10" placeholder="Enter your answer here.."></textarea>#}
+{#                </label>#}
+{#            </div>#}
+{#        </form>#}
 
-        <button class="answer-button">Answer</button>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+
+            {% buttons %}
+                <button type="submit" class="answer-button btn btn-primary col-3">Answer</button>
+
+            {% endbuttons %}
+        </form>
     </div>
 
 

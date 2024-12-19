@@ -25,7 +25,7 @@ class Tag(models.Model):
 
 
 class Profile(models.Model):
-    image = models.ImageField(upload_to='img/profile_pics', null=True, blank=True)
+    image = models.ImageField(upload_to='static/img/profile_pics', null=True, blank=True)
     bio = models.TextField(default='No Bio')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=50, default='user')
@@ -57,13 +57,13 @@ class Question(models.Model):
 
 class AnswerManager(models.Manager):
     def get_answers_for_question(self, question):
-        return self.all().filter(question_id=question)
+        return self.all().filter(question_id=question).order_by('-date_posted')
 
 
 class Answer(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
-    is_correct = models.BooleanField()
+    is_correct = models.BooleanField(default=False)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     num_likes = models.IntegerField(default=0)
     date_posted = models.DateTimeField(auto_now_add=True)

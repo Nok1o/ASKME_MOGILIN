@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.template.context_processors import request
 
-from app.models import Profile, Question, Tag
+from app.models import Profile, Question, Tag, Answer
 
 
 class LoginForm(forms.Form):
@@ -103,10 +103,10 @@ class SettingsForm(forms.ModelForm):
         raise ValidationError(f"User with nickname: {nickname} already exists")
 
 
-class AskForm(forms.Form):
+class AskForm(forms.ModelForm):
     title = forms.CharField()
     text = forms.CharField(widget=forms.Textarea)
-    tags = forms.CharField()
+    tags = forms.CharField(widget=forms.TextInput, help_text='Separate tags with comma')
 
     class Meta:
         model = Question
@@ -114,13 +114,13 @@ class AskForm(forms.Form):
 
     def clean_tags(self):
         tags = self.cleaned_data['tags']
-        tags = tags.split(',')
+        tags = [tag.strip() for tag in tags.split(',')]
         for tag in tags:
-            if not tag.isalnum():
+            if not tag.isidentifier():
                 self.add_error('tags', 'Tags should be alphanumeric')
         return tags
 
-    def save(self, user, commit=True):
+    def save(self, user=None, commit=True):
         question = Question(title=self.cleaned_data['title'], text=self.cleaned_data['text'], author=user)
         if commit:
             question.save()
@@ -129,3 +129,25 @@ class AskForm(forms.Form):
             tag, _ = Tag.objects.get_or_create(tag_name=tag)
             question.tags.add(tag)
         return question
+
+
+class AnswerForm(forms.ModelForm):
+    text = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Enter your answer here...'}),
+                           label='Add answer')
+
+    class Meta:
+        model = Answer
+        fields = ('text',)
+
+    def save(self, question=None, user=None, commit=True):
+        answer = super().save(commit=False)
+        answer.question = question
+        answer.author = user
+        question.num_answers += 1
+        if commit:
+            answer.save()
+            question.save()
+        return answer
+
+    def get_answer_id(self):
+        return self.instance.id

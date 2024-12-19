@@ -13,25 +13,8 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
-            <button type="submit" class="form-button btn btn-primary col-3">Ask</button>
+            <button type="submit" class="btn btn-primary col-3">Ask</button>
         {% endbuttons %}
-
-        {#        <div class="form-title">#}
-        {#            <label for="title">Title</label>#}
-        {#            <input type="text" id="title" name="title" placeholder="Your title" size="80">#}
-        {#        </div>#}
-        {##}
-        {#        <div class="form-text">#}
-        {#            <label for="text">Text</label>#}
-        {#            <textarea id="text" name="text" rows="20" cols="80" placeholder="Your text"></textarea>#}
-        {#        </div>#}
-        {##}
-        {#        <div class="form-tags">#}
-        {#            <label for="tags">Tags</label>#}
-        {#            <input type="text" id="tags" name="tags" size="80">#}
-        {#        </div>#}
-        {#        <button class="form-button">Ask</button>#}
-        {#        <div class="error-box">Error happened! You cannot ask that question</div>#}
     </form>
 
 {% endblock %}

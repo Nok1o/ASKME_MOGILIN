@@ -1,8 +1,8 @@
 {% load static %}
 
-<article class="card">
+<article class="card d-flex flex-row">
     <div class="card-left">
-        <img src="{%  static question.author.profile.image %}" class="card-image" alt="question card image">
+        <img src="{{  question.author.profile.image.url }}" class="card-image" alt="question card image">
         <input type="number" class="card-likes" value={{ question.num_likes }}>
     </div>
 

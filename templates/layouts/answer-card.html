@@ -1,8 +1,8 @@
 {% load static %}
 
-<article class="answer-card">
+<article class="answer-card" id="answer-{{ answer.id }}">
     <div class="card-left">
-        <img src="{% static answer.author.profile.image %}" alt="Image" class="card-image">
+        <img src="{{  answer.author.profile.image.url }}" alt="Image" class="card-image">
         <input type="number" class="card-likes" value="{{ answer.num_likes }}">
     </div>
 

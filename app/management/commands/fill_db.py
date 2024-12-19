@@ -38,7 +38,7 @@ class Command(BaseCommand):
         print("Users and profiles done")
 
         # creating tags
-        tags = [Tag(tag_name=f"tag {i + 1}") for i in range(num_tags)]
+        tags = [Tag(tag_name=f"tag_{i + 1}") for i in range(num_tags)]
         Tag.objects.bulk_create(tags)
         tag_objects = list(Tag.objects.all())
         print("Tags done")

@@ -4,11 +4,12 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, 
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseNotFound, HttpResponseServerError, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views.decorators.http import require_GET, require_POST
 import django.contrib.auth as auth
 
 from app.models import Question, Answer, Tag, Profile
-from app.forms import LoginForm, UserForm, SettingsForm, AskForm
+from app.forms import LoginForm, UserForm, SettingsForm, AskForm, AnswerForm
 
 DEFAULT_QUESTIONS_PER_PAGE = 5
 DEFAULT_LIMIT = 10
@@ -17,8 +18,6 @@ DEFAULT_PAGE = 1
 DEFAULT_LOGIN_REDIRECT = '/profile/edit'
 DEFAULT_SIGNUP_REDIRECT = '/'
 
-
-# Create your views here.
 
 def paginate(request, query_set):
     try:
@@ -59,7 +58,7 @@ def index(request):
 
 
 def hot_questions(request):
-    page = paginate(Question.objects.get_best_questions(), request)
+    page = paginate(request, Question.objects.get_best_questions())
 
     if page is None:
         return HttpResponseNotFound("Page was not found")
@@ -72,16 +71,23 @@ def hot_questions(request):
     )
 
 
-@require_GET
 def question(request, question_id):
+    form = AnswerForm()
     question = get_object_or_404(Question, id=question_id)
     page = paginate(request,
                     Answer.objects.get_answers_for_question(question))
 
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            form.save(question=question, user=request.user)
+
+            return redirect(f'{reverse("question", args=[question.id])}?page={1}#answer-{form.get_answer_id()}')
+
     return render(
         request, 'question.html',
         context={'question': question, 'popular_tags': Tag.objects.get_popular_tags(), 'answers': page.object_list,
-                 'page_obj': page}
+                 'page_obj': page, 'form': form}
     )
 
 
