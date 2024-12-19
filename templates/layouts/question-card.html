@@ -2,7 +2,11 @@
 
 <article class="card d-flex flex-row">
     <div class="card-left">
+        {% if question.author.profile.image %}
         <img src="{{  question.author.profile.image.url }}" class="card-image" alt="question card image">
+        {% else %}
+        <img src="" class="card-image" alt="question card image">
+        {% endif %}
         <input type="number" class="card-likes" value={{ question.num_likes }}>
     </div>
 

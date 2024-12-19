@@ -104,14 +104,6 @@ def tag(request, tag_name):
     if page is None:
         return HttpResponseNotFound("Page was not found")
 
-    tag = None
-    for con_tag in Tag.objects.all():
-        if con_tag.tag_name == tag_name:
-            tag = con_tag
-
-    if tag is None:
-        return HttpResponseNotFound("Tag was not found")
-
     return render(
         request, 'tag_search.html',
         context={
@@ -202,7 +194,6 @@ def settings(request):
         if form.is_valid():
             form.save(user_instance=user)
             messages.success(request, 'Profile updated successfully')
-            #return redirect('settings')
     else:
         form = SettingsForm(instance=user, profile_instance=profile)
 

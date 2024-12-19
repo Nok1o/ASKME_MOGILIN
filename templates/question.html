@@ -6,9 +6,14 @@
 
     <div class="question">
         <article class="d-flex flex-row">
-            <div class="card-left" id="question_card_left">
-                <img src="{% static question.author.profile.image %}" alt="Image" class="card-image">
-                <label for="question-image"></label><input type="number" class="card-likes" value="{{ question.num_likes }}" id="question-image">
+            <div class="card-left mx-1" id="question_card_left">
+                {% if question.author.profile.image %}
+                    <img src="{{ question.author.profile.image.url }}" alt="Image" class="card-image">
+                {% else %}
+                    <img src="" alt="Image" class="card-image">
+                {% endif %}
+                <label for="question-image"></label><input type="number" class="card-likes"
+                                                           value="{{ question.num_likes }}" id="question-image">
             </div>
 
             <div class="card-right">
@@ -36,14 +41,6 @@
         {% endfor %}
 
         {% include 'layouts/paginator.html' %}
-
-{#        <form class="user-answer">#}
-{#            <div class="answer">#}
-{#                <label>#}
-{#                    <textarea name="answer" cols="100%" rows="10" placeholder="Enter your answer here.."></textarea>#}
-{#                </label>#}
-{#            </div>#}
-{#        </form>#}
 
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}

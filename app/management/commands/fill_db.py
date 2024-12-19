@@ -1,7 +1,7 @@
 import os
 import random
-from django.core.management.base import BaseCommand, CommandError
-from django.template.context_processors import static
+from django.core.management.base import BaseCommand
+from shutil import copy, copytree
 
 from app.models import Question, Answer, LikeQuestion, LikeAnswer, Profile, User, Tag
 from django.db import connection
@@ -31,8 +31,10 @@ class Command(BaseCommand):
         User.objects.bulk_create(users)
         user_objects = list(User.objects.all())
 
-        pics = os.listdir(settings.BASE_DIR / 'static/img/profile_pics')
-        profiles = [Profile(bio="I am an ordinary user", user=user, image=f'img/profile_pics/{random.choice(pics)}')
+        copytree('static/img/profile_pics/', 'media/user_uploads/', dirs_exist_ok=True)
+        pics = os.listdir(settings.BASE_DIR / 'media/user_uploads/')
+        print(pics)
+        profiles = [Profile(bio="I am an ordinary user", user=user, image=f'user_uploads/{random.choice(pics)}')
                     for _, user in enumerate(user_objects)]
         Profile.objects.bulk_create(profiles)
         print("Users and profiles done")

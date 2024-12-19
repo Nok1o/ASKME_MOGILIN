@@ -2,7 +2,11 @@
 
 <article class="answer-card" id="answer-{{ answer.id }}">
     <div class="card-left">
-        <img src="{{  answer.author.profile.image.url }}" alt="Image" class="card-image">
+        {% if answer.author.profile.image %}
+            <img src="{{ answer.author.profile.image.url }}" alt="Image" class="card-image">
+        {% else %}
+            <img src="" alt="Image" class="card-image">
+        {% endif %}
         <input type="number" class="card-likes" value="{{ answer.num_likes }}">
     </div>
 

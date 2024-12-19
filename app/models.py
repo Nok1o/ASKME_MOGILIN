@@ -25,7 +25,7 @@ class Tag(models.Model):
 
 
 class Profile(models.Model):
-    image = models.ImageField(upload_to='static/img/profile_pics', null=True, blank=True)
+    image = models.ImageField(upload_to='user_uploads/', null=True, blank=True)
     bio = models.TextField(default='No Bio')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=50, default='user')
