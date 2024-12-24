@@ -44,8 +44,9 @@ def paginate(request, query_set):
 
     return page
 
-def render_with_tags(request, template_name, context):
+def render_with_tags_and_members(request, template_name, context):
     context['popular_tags'] = Tag.objects.get_popular_tags()
+    context['best_members'] = Answer.objects.get_best_members()
     return render(request, template_name, context)
 
 def index(request):
@@ -53,7 +54,7 @@ def index(request):
     if page is None:
         return HttpResponseNotFound("Page was not found")
 
-    return render_with_tags(request, 'index.html', {
+    return render_with_tags_and_members(request, 'index.html', {
         'questions': page.object_list,
         'page_obj': page
     })
@@ -63,7 +64,7 @@ def hot_questions(request):
     if page is None:
         return HttpResponseNotFound("Page was not found")
 
-    return render_with_tags(request, 'hot_questions.html', {
+    return render_with_tags_and_members(request, 'hot_questions.html', {
         'questions': page.object_list,
         'page_obj': page,
         'authorized': True
@@ -80,7 +81,7 @@ def question(request, question_id):
             form.save(question=question, user=request.user)
             return redirect(f'{reverse("question", args=[question.id])}?page={1}#answer-{form.get_answer_id()}')
 
-    return render_with_tags(request, 'question.html', {
+    return render_with_tags_and_members(request, 'question.html', {
         'question': question,
         'answers': page.object_list,
         'page_obj': page,
@@ -100,7 +101,7 @@ def tag(request, tag_name):
     if page is None:
         return HttpResponseNotFound("Page was not found")
 
-    return render_with_tags(request, 'tag_search.html', {
+    return render_with_tags_and_members(request, 'tag_search.html', {
         'tag': tag,
         'questions': page.object_list,
         'page_obj': page
@@ -113,7 +114,7 @@ def ask(request):
         q = form.save(user=request.user)
         return redirect('question', question_id=q.id)
 
-    return render_with_tags(request, 'ask.html', {'form': form})
+    return render_with_tags_and_members(request, 'ask.html', {'form': form})
 
 def login(request):
     form = LoginForm(request.POST or None)
@@ -128,7 +129,7 @@ def login(request):
         else:
             form.add_error(None, 'Incorrect login or password')
 
-    return render_with_tags(request, 'login.html', {'form': form})
+    return render_with_tags_and_members(request, 'login.html', {'form': form})
 
 def logout(request):
     auth.logout(request)
@@ -147,7 +148,7 @@ def signup(request):
             redirect_url = DEFAULT_SIGNUP_REDIRECT
         return HttpResponseRedirect(redirect_url)
 
-    return render_with_tags(request, 'signup.html', {'form': form})
+    return render_with_tags_and_members(request, 'signup.html', {'form': form})
 
 @login_required
 def settings(request):
@@ -157,7 +158,7 @@ def settings(request):
         form.save(user_instance=request.user)
         messages.success(request, 'Profile updated successfully')
 
-    return render_with_tags(request, 'settings.html', {'form': form})
+    return render_with_tags_and_members(request, 'settings.html', {'form': form})
 
 @require_POST
 @login_required_ajax

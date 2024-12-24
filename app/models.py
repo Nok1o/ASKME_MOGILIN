@@ -1,6 +1,8 @@
 import django.contrib.auth.models
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Count
+
 # Create your models here.
 
 DEFAULT_POPULAR_TAGS_NUM = 10
@@ -65,6 +67,15 @@ class AnswerManager(models.Manager):
 
     def get_amount_likes(self):
         return LikeAnswer.objects.filter(answer_id=self.id).count()
+
+    def get_best_members(self):
+        return (
+            self.values('author__id', 'author__profile__nickname')
+            .annotate(answer_count=Count('author'))
+            .order_by('-answer_count')
+            .order_by('-answer_count')
+            [:10]
+        )
 
 
 class Answer(models.Model):

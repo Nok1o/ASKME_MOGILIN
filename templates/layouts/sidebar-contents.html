@@ -8,11 +8,9 @@
 </section>
 <section class="best-members">
     <h3>Best Members</h3>
-    <ul class="best-members-list">
-        <li><a href="#">Member</a></li>
-        <li><a href="#">Member</a></li>
-        <li><a href="#">Member</a></li>
-        <li><a href="#">Member</a></li>
-        <li><a href="#">Member</a></li>
+    <ul class="best-members-list list-group">
+        {% for member in best_members %}
+          <li class="list-group-item">{{ member.author__profile__nickname }}</li>
+        {% endfor %}
     </ul>
 </section>
