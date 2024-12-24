@@ -126,9 +126,10 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid black;
 }
 
-.card-likes {
-    width: 100%;
-    padding: 0;
+#card-likes {
+    width: 50px;
+    height: 70%;
+    border-radius: 0;
 }
 
 .card-title {
@@ -247,10 +248,6 @@ textarea {
 
 #question_card_left {
     width: 15%;
-}
-
-.card-likes {
-    width: 60px;
 }
 
 .settings-avatar, .login-content {

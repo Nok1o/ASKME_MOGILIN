@@ -39,6 +39,10 @@ class QuestionManager(models.Manager):
         return self.all().order_by('-date_posted')
 
 
+    def get_amount_likes(self):
+        return LikeQuestion.objects.filter(question_id=self.id).count()
+
+
 class Question(models.Model):
     title = models.CharField()
     text = models.TextField(default='No Text')
@@ -58,6 +62,9 @@ class Question(models.Model):
 class AnswerManager(models.Manager):
     def get_answers_for_question(self, question):
         return self.all().filter(question_id=question).order_by('-date_posted')
+
+    def get_amount_likes(self):
+        return LikeAnswer.objects.filter(answer_id=self.id).count()
 
 
 class Answer(models.Model):
@@ -84,7 +91,27 @@ class LikeQuestion(models.Model):
         return 'like for question ' + self.question_id.__str__() + ' by ' + self.user_id.__str__()
 
 
+class DislikeQuestion(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    unique_together = [question, user]
+
+    def __str__(self):
+        return 'like for question ' + self.question_id.__str__() + ' by ' + self.user_id.__str__()
+
+
 class LikeAnswer(models.Model):
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    unique_together = [answer, user]
+
+    def __str__(self):
+        return 'like for answer' + self.answer_id.__str__() + 'by ' + self.user_id.__str__()
+
+
+class DislikeAnswer(models.Model):
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

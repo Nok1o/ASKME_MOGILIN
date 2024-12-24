@@ -1,13 +1,30 @@
 {% load static %}
 
-<article class="card d-flex flex-row">
+<article class="card d-flex flex-row" data-question-id="{{ question.id }}">
     <div class="card-left">
         {% if question.author.profile.image %}
         <img src="{{  question.author.profile.image.url }}" class="card-image" alt="question card image">
         {% else %}
         <img src="" class="card-image" alt="question card image">
         {% endif %}
-        <input type="number" class="card-likes" value={{ question.num_likes }}>
+        <div class="d-flex align-items-center mt-2" style="height: 2.5rem;">
+            <input type="text" class="form-control text-center card-likes"
+                style="width: 80%; height: 70%; border-radius: 0;"
+                value="{{ question.num_likes }}"
+                id="likes-{{ question.id }}" readonly>
+            <div class="btn-group-vertical" style="height: 70%;">
+                <button class="btn btn-outline-primary p-0 like-button"
+                    style="width: 100%; height: 50%; border-radius: 0; line-height: 0; color: black; border-color: lightgray;"
+                    data-action="increment" data-question-id="{{ question.id }}">
+                    <i class="bi bi-arrow-up-short" style="font-size: 0.8rem;"></i>
+                </button>
+                <button class="btn btn-outline-primary p-0 dislike-button"
+                    style="width: 100%; height: 50%; border-radius: 0; line-height: 0; color: black; border-color: lightgray;"
+                    data-action="decrement" data-question-id="{{ question.id }}">
+                    <i class="bi bi-arrow-down-short" style="font-size: 0.8rem;"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <div class="card-right">

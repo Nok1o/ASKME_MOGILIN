@@ -13,4 +13,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('signup/', views.signup, name='signup'),
     path('profile/edit/', views.settings, name='settings'),
+    path('question/<int:question_id>/feedback', views.question_feedback, name='question_feedback'),
+    path('answer/<int:answer_id>/feedback', views.answer_feedback, name='answer_feedback'),
+    path('answer/<int:answer_id>/correct', views.correct_feedback, name='correct_feedback'),
 ]

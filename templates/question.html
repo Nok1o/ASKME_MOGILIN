@@ -5,15 +5,32 @@
 {% block content %}
 
     <div class="question">
-        <article class="d-flex flex-row">
+        <article id="question-card" class="d-flex flex-row card" data-question-id="{{ question.id }}" data-user-is-author="{{ user_is_author }}">
             <div class="card-left mx-1" id="question_card_left">
                 {% if question.author.profile.image %}
                     <img src="{{ question.author.profile.image.url }}" alt="Image" class="card-image">
                 {% else %}
                     <img src="" alt="Image" class="card-image">
                 {% endif %}
-                <label for="question-image"></label><input type="number" class="card-likes"
-                                                           value="{{ question.num_likes }}" id="question-image">
+                <label for="question-image"></label>
+                <div class="d-flex align-items-center mt-2" style="height: 2.5rem;">
+                    <input type="text" class="form-control text-center card-likes"
+                           style="width: 80%; height: 70%; border-radius: 0;"
+                           value="{{ question.num_likes }}"
+                           id="likes-{{ question.id }}" readonly>
+                    <div class="btn-group-vertical" style="height: 70%;">
+                        <button class="btn btn-outline-primary p-0 like-button"
+                                style="width: 100%; height: 50%; border-radius: 0; line-height: 0; color: black; border-color: lightgray;"
+                                data-action="increment" data-question-id="{{ question.id }}">
+                            <i class="bi bi-arrow-up-short" style="font-size: 0.8rem;"></i>
+                        </button>
+                        <button class="btn btn-outline-primary p-0 dislike-button"
+                                style="width: 100%; height: 50%; border-radius: 0; line-height: 0; color: black; border-color: lightgray;"
+                                data-action="decrement" data-question-id="{{ question.id }}">
+                            <i class="bi bi-arrow-down-short" style="font-size: 0.8rem;"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="card-right">
