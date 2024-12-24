@@ -1,0 +1,42 @@
+This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+
+
+Server Software:        nginx/1.24.0
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /static/img/avatar.jpg
+Document Length:        8331 bytes
+
+Concurrency Level:      100
+Time taken for tests:   0.070 seconds
+Complete requests:      2000
+Failed requests:        0
+Total transferred:      17338000 bytes
+HTML transferred:       16662000 bytes
+Requests per second:    28734.81 [#/sec] (mean)
+Time per request:       3.480 [ms] (mean)
+Time per request:       0.035 [ms] (mean, across all concurrent requests)
+Transfer rate:          243263.71 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   1.5      1      10
+Processing:     0    2   1.9      1      12
+Waiting:        0    1   0.7      1       7
+Total:          1    3   2.8      2      15
+
+Percentage of the requests served within a certain time (ms)
+  50%      2
+  66%      2
+  75%      5
+  80%      5
+  90%      8
+  95%     10
+  98%     11
+  99%     12
+ 100%     15 (longest request)

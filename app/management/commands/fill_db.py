@@ -31,10 +31,10 @@ class Command(BaseCommand):
         User.objects.bulk_create(users)
         user_objects = list(User.objects.all())
 
-        copytree('static/img/profile_pics/', 'media/user_uploads/', dirs_exist_ok=True)
-        pics = os.listdir(settings.BASE_DIR / 'media/user_uploads/')
+        copytree('static/img/profile_pics/', 'uploads/', dirs_exist_ok=True)
+        pics = os.listdir(settings.BASE_DIR / 'uploads/')
         print(pics)
-        profiles = [Profile(bio="I am an ordinary user", user=user, image=f'user_uploads/{random.choice(pics)}')
+        profiles = [Profile(bio="I am an ordinary user", user=user, image=f'{random.choice(pics)}')
                     for _, user in enumerate(user_objects)]
         Profile.objects.bulk_create(profiles)
         print("Users and profiles done")

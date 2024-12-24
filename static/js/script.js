@@ -119,7 +119,11 @@ for (const card of cards) {
 
 const answer_cards = document.getElementsByClassName('answer-card');
 const question_card = document.getElementById('question-card');
-const user_is_author = question_card.dataset.userIsAuthor;
+
+let user_is_author = 'False';
+if (question_card) {
+    user_is_author = question_card.dataset.userIsAuthor;
+}
 
 for (const card of answer_cards) {
     const numericEntry = card.getElementsByClassName('card-likes')[0];
