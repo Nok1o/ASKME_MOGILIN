@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% load bootstrap5 %}
+{% load django_bootstrap5 %}
 
 {% block title %}
     <div class="title-bar">
@@ -14,9 +14,7 @@
         <form action="" method="POST">
             {% csrf_token %}
             {% bootstrap_form form %}
-            {% buttons %}
-                <button type="submit" class="save-avatar btn btn-primary col-3">Sign in</button>
-            {% endbuttons %}
+            <button type="submit" class="save-avatar btn btn-primary col-3">Sign in</button>
 
             <button class="btn btn-outline-primary col-3"><a href="{% url 'signup' %}">Create new account</a></button>
         </form>

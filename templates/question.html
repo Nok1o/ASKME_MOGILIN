@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% load bootstrap5 %}
+{% load django_bootstrap5 %}
 
 {% block content %}
 
@@ -63,10 +63,7 @@
             {% csrf_token %}
             {% bootstrap_form form %}
 
-            {% buttons %}
-                <button type="submit" class="answer-button btn btn-primary col-3">Answer</button>
-
-            {% endbuttons %}
+            <button type="submit" class="answer-button btn btn-primary col-3">Answer</button>
         </form>
     </div>
 

@@ -27,7 +27,7 @@ class Tag(models.Model):
 
 
 class Profile(models.Model):
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(upload_to='profile_pics', null=True, blank=True)
     bio = models.TextField(default='No Bio')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=50, default='user')
@@ -46,7 +46,7 @@ class QuestionManager(models.Manager):
 
 
 class Question(models.Model):
-    title = models.CharField()
+    title = models.CharField(max_length=255)
     text = models.TextField(default='No Text')
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

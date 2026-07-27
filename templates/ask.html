@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% load bootstrap5 %}
+{% load django_bootstrap5 %}
 
 {% block title %}
     <div class="title-bar">
@@ -12,9 +12,7 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
-        {% buttons %}
-            <button type="submit" class="btn btn-primary col-3">Ask</button>
-        {% endbuttons %}
+        <button type="submit" class="btn btn-primary col-3">Ask</button>
     </form>
 
 {% endblock %}

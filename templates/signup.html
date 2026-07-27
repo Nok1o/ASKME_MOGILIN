@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %}
-{% load bootstrap5 %}
+{% load django_bootstrap5 %}
 {% load static %}
 
 {% block title %}
@@ -13,9 +13,7 @@
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form %}
-            {% buttons %}
-                <button type="submit" class="register-button btn btn-primary col-3">Register</button>
-            {% endbuttons %}
+            <button type="submit" class="register-button btn btn-primary col-3">Register</button>
         </form>
 
     </div>
